@@ -12,6 +12,7 @@ namespace WebApp_Desafio_FrontEnd.ApiClients.Desafio_API
         private const string chamadosObterUrl = "api/Chamados/Obter";
         private const string chamadosGravarUrl = "api/Chamados/Gravar";
         private const string chamadosExcluirUrl = "api/Chamados/Excluir";
+        private const string chamadosSolicitantesUrl = "api/Chamados/Solicitantes";
 
         private string desafioApiUrl = "https://localhost:44388/"; // Endereço API IIS-Express
 
@@ -94,6 +95,27 @@ namespace WebApp_Desafio_FrontEnd.ApiClients.Desafio_API
             string json = base.ReadHttpWebResponseMessage(response);
 
             return JsonConvert.DeserializeObject<bool>(json);
+        }
+
+        public List<string> PesquisarSolicitantes(string termo)
+        {
+            var headers = new Dictionary<string, object>()
+            {
+                { "TokenAutenticacao", tokenAutenticacao }
+            };
+
+            var querys = new Dictionary<string, object>()
+            {
+                { "termo", termo }
+            };
+
+            var response = base.Get($"{desafioApiUrl}{chamadosSolicitantesUrl}", querys, headers);
+
+            base.EnsureSuccessStatusCode(response);
+
+            string json = base.ReadHttpWebResponseMessage(response);
+
+            return JsonConvert.DeserializeObject<List<string>>(json);
         }
 
     }

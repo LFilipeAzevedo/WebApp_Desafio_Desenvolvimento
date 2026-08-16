@@ -84,6 +84,16 @@ namespace WebApp_Desafio_FrontEnd.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    var erros = ModelState
+                        .Where(m => m.Value.Errors.Count > 0)
+                        .SelectMany(m => m.Value.Errors)
+                        .Select(e => e.ErrorMessage);
+
+                    throw new ArgumentException(string.Join(" ", erros));
+                }
+
                 var chamadosApiClient = new ChamadosApiClient();
                 var realizadoComSucesso = chamadosApiClient.ChamadoGravar(chamadoVM);
 
@@ -94,7 +104,7 @@ namespace WebApp_Desafio_FrontEnd.Controllers
                                 this.RouteData.Values["controller"].ToString(),
                                 nameof(this.Listar)));
                 else
-                    throw new ApplicationException($"Falha ao excluir o Chamado.");
+                    throw new ApplicationException($"Falha ao gravar o Chamado.");
             }
             catch (Exception ex)
             {

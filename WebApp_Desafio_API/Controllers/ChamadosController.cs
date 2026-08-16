@@ -77,15 +77,18 @@ namespace WebApp_Desafio_API.Controllers
             {
                 var _chamado = this.bll.ObterChamado(idChamado);
 
+                if (_chamado == null)
+                    throw new ArgumentException($"Chamado {idChamado} não encontrado.");
+
                 var chamado = new ChamadoResponse()
-                              {
-                                  id = _chamado.ID,
-                                  assunto = _chamado.Assunto,
-                                  solicitante = _chamado.Solicitante,
-                                  idDepartamento = _chamado.IdDepartamento,
-                                  departamento = _chamado.Departamento,
-                                  dataAbertura = _chamado.DataAbertura
-                              };
+                {
+                    id = _chamado.ID,
+                    assunto = _chamado.Assunto,
+                    solicitante = _chamado.Solicitante,
+                    idDepartamento = _chamado.IdDepartamento,
+                    departamento = _chamado.Departamento,
+                    dataAbertura = _chamado.DataAbertura
+                };
 
                 return Ok(chamado);
             }
@@ -140,7 +143,7 @@ namespace WebApp_Desafio_API.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-        
+
         /// <summary>
         /// Exclui um chamado específico
         /// </summary>
@@ -150,7 +153,7 @@ namespace WebApp_Desafio_API.Controllers
         [ProducesResponseType(typeof(string), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
         [Route("Excluir")]
-        public IActionResult Excluir([FromRoute] int idChamado)
+        public IActionResult Excluir([FromQuery] int idChamado)
         {
             try
             {

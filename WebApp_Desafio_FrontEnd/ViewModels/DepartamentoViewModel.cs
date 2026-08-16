@@ -13,8 +13,10 @@ namespace WebApp_Desafio_FrontEnd.ViewModels
         [DataMember(Name = "ID")]
         public int ID { get; set; }
 
-        [Display(Name = "Descricao")]
+        [Display(Name = "Descrição")]
         [DataMember(Name = "Descricao")]
+        [Required(ErrorMessage = "Informe a Descrição do Departamento.")]
+        [StringLength(100, ErrorMessage = "A Descrição deve ter no máximo {1} caracteres.")]
         public string Descricao { get; set; }
 
     }

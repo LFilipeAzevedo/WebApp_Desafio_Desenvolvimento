@@ -1,19 +1,5 @@
 ﻿$(document).ready(function () {
 
-    var idAtual = parseInt($('#ID').val()) || 0;
-    var ehNovoRegistro = (idAtual === 0);
-
-    $('.glyphicon-calendar').closest("div.date").datepicker({
-        todayBtn: "linked",
-        keyboardNavigation: false,
-        forceParse: false,
-        calendarWeeks: false,
-        format: 'dd/mm/yyyy',
-        autoclose: true,
-        language: 'pt-BR',
-        startDate: ehNovoRegistro ? "0d" : undefined
-    });
-
     $('#btnCancelar').click(function () {
         Swal.fire({
             html: "Deseja cancelar essa operação? O registro não será salvo.",
@@ -35,30 +21,13 @@
             return;
         }
 
-        if (ehNovoRegistro) {
-            var partesData = $('#DataAbertura').val().split('/');
-            var dataInformada = new Date(partesData[2], partesData[1] - 1, partesData[0]);
-            var hoje = new Date();
-            hoje.setHours(0, 0, 0, 0);
-
-            if (dataInformada < hoje) {
-                Swal.fire({
-                    text: "A Data de Abertura não pode ser retroativa.",
-                    confirmButtonText: 'OK',
-                    icon: 'warning'
-                });
-                return;
-            }
-        }
-
-        let chamado = SerielizeForm($('#form'));
+        let departamento = SerielizeForm($('#form'));
         let url = $('#form').attr('action');
-        //debugger;
 
         $.ajax({
             type: "POST",
             url: url,
-            data: chamado,
+            data: departamento,
             success: function (result) {
 
                 Swal.fire({

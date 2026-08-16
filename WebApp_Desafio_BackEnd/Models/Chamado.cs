@@ -10,8 +10,7 @@ namespace WebApp_Desafio_BackEnd.Models
     [Serializable]
     public class Chamado
     {
-        public static readonly Chamado Empty;
-
+        public static readonly Chamado Empty = new Chamado();
         [Key]
         public int ID { get; set; }
 
